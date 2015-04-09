@@ -54,7 +54,8 @@ var TodoModel = (function (_super) {
         console.log('Model: getDoneCount taskNode = ' + taskNode);
         var count = 0;
         for (var i = 0; i < taskNode.length; i++) {
-            count += taskNode[i].childNodes[0].checked ? 1 : 0;
+            var task = taskNode[i];
+            count += task.childNodes[0].checked ? 1 : 0;
         }
         this.dispatchEvent({ type: 'getDoneCount', doneCount: count, taskCount: taskNode.length });
     };
@@ -127,9 +128,10 @@ var TodoView = (function () {
     };
     TodoView.prototype.deleteDone = function () {
         console.log('View: deleteDone');
-        var taskList = document.getElementsByTagName('li');
+        var taskList = document.querySelectorAll('#tasks > li');
         for (var i = taskList.length - 1; 0 <= i; i--) {
-            if (taskList[i].children[0].checked) {
+            var task = taskList[i];
+            if (task.children[0].checked) {
                 this.tasks.removeChild(this.tasks.children[i]);
             }
         }

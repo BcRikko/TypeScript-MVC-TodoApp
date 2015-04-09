@@ -103,7 +103,8 @@ class TodoModel extends EventDispatcher {
         var count = 0;
 
         for (var i = 0; i < taskNode.length; i++) {
-            count += (<HTMLInputElement>taskNode[i].childNodes[0]).checked ? 1 : 0;
+            var task = <HTMLLIElement>taskNode[i];
+            count += (<HTMLInputElement>task.childNodes[0]).checked ? 1 : 0;
         }
 
         this.dispatchEvent({ type: 'getDoneCount', doneCount: count, taskCount: taskNode.length });
@@ -228,11 +229,13 @@ class TodoView {
      */
     deleteDone(): void {
         console.log('View: deleteDone');
-        var taskList = document.getElementsByTagName('li');
+        var taskList = document.querySelectorAll('#tasks > li') ;
 
         for (var i = taskList.length - 1; 0 <= i; i--) {
             // children[0] = Checkbox
-            if ((<HTMLInputElement>taskList[i].children[0]).checked) {
+            var task = <HTMLLIElement>taskList[i];
+
+            if ((<HTMLInputElement>task.children[0]).checked) {
                 this.tasks.removeChild(this.tasks.children[i]);
             }
         }
